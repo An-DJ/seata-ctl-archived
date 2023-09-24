@@ -1,6 +1,4 @@
-# seata-ctl
-
-## Introduction
+# Introduction
 
 This is a CLI tool for [Seata](https://github.com/seata/seata) named `seata-ctl`.
 
@@ -24,16 +22,16 @@ Flags:
 
 Use "seata-ctl [command] --help" for more information about a command.
 ```
-## How to use
+# How to use
 
-### Connection to a Seata server
+## Login
 
 ```shell
 $ seata-ctl --ip 127.0.0.1 --port 7091 --username seata --password seata
 127.0.0.1:7091 > # input command here
 ```
 
-### `help` command
+## Help
 
 ```shell
 127.0.0.1:7091 > help
@@ -49,7 +47,7 @@ Available Commands:
   try         Try if this node is ready
 ```
 
-### `get` command
+## Get
 
 ```shell
 127.0.0.1:7091 > get -h    
@@ -95,7 +93,7 @@ e.g. Get the configuration `server.servicePort`:
 +--------------------+-------+
 ```
 
-### `set` command
+## Set
 
 ```shell
 127.0.0.1:7091 > set -h                    
@@ -153,7 +151,7 @@ set config --key server.undo.logSaveDays --value 5
 +-------------------------+-------+
 ```
 
-### `try` command
+## Try
 
 Try to submit an example transaction to check if the server is ok:
 
@@ -162,11 +160,11 @@ Try to submit an example transaction to check if the server is ok:
 Try an example txn successfully, xid=192.168.163.1:8091:522856277732237313
 ```
 
-### `reload` command
+## Reload
 
 TBD
 
-### `quit` command
+## Quit
 
 Quit the session:
 
