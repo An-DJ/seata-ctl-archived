@@ -22,6 +22,15 @@ Flags:
 
 Use "seata-ctl [command] --help" for more information about a command.
 ```
+
+# Build
+
+Dependency: Go 1.19+
+
+```shell
+go build .
+```
+
 # How to use
 
 ## Login
@@ -214,6 +223,8 @@ Commit txn successfully, xid=192.168.163.1:8091:8755443813836259333
 127.0.0.1:7091 > try rollback --xid 192.168.163.1:8091:8755443813836259333
 Rollback txn successfully, xid=192.168.163.1:8091:8755443813836259333
 ```
+
+Lifecycle of the transactions could be checked in Web console UI. (exposed at `7091` by default).
 
 ## Reload
 
