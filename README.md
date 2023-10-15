@@ -104,6 +104,33 @@ Use "get [command] --help" for more information about a command.
 +--------------------+-------+
 ```
 
+3. Get multiple configuration (which could be written in multiple lines by ending with '\\'):
+
+```shell
+127.0.0.1:7091 > get config --key '[ \
+    "server.servicePort", \
+    "server.recovery.timeoutRetryPeriod", \
+    "server.undo.logDeletePeriod" \
+]'
++------------------------------------+----------+
+| KEY                                | VALUE    |
++------------------------------------+----------+
+| server.recovery.timeoutRetryPeriod | 1000     |
+| server.servicePort                 | 8091     |
+| server.undo.logDeletePeriod        | 86400000 |
++------------------------------------+----------+
+```
+
+4. Get all configurations
+
+```shell
+127.0.0.1:7091 > get config
++------------------------------------+----------+
+| KEY                                | VALUE    |
++------------------------------------+----------+
+...
+```
+
 ## Set
 
 ### Usage
@@ -141,7 +168,7 @@ Flags:
 
 ### Example
 
-1. Set the registry type to `eureka`:
+1. Set the registry config, such as setting type to `eureka`:
 
 ```shell
 127.0.0.1:7091 > set config --registry --data '{"registry.type": "eureka"}'
@@ -154,7 +181,7 @@ Flags:
 
 You can found that the Seata server is registered at `eureka` registry.
 
-2. Set the configuration center to `nacos`
+2. Set the configuration center config, such as setting type to `nacos`
 
 ```shell
 127.0.0.1:7091 > set config --config-center --data '{"config.type": "nacos"}'
@@ -176,6 +203,23 @@ You can found that the configuration in `nacos` is loaded.
 +-------------------------+------+----+
 | server.undo.logSaveDays | 6    | 5  |
 +-------------------------+------+----+
+```
+
+4. Set multiple configurations at the same time:
+
+```shell
+127.0.0.1:7091 > set config --data '{ \
+    "server.maxCommitRetryTimeout": "3000", \
+    "server.maxRollbackRetryTimeout": "3000", \
+    "server.undo.logSaveDays": "14" \
+}'
++--------------------------------+------+------+
+| KEY                            | FROM | TO   |
++--------------------------------+------+------+
+| server.maxCommitRetryTimeout   | -1   | 3000 |
+| server.maxRollbackRetryTimeout | -1   | 3000 |
+| server.undo.logSaveDays        | 5    | 14   |
++--------------------------------+------+------+
 ```
 
 ## Try
