@@ -1,14 +1,13 @@
 package cmd
 
 import (
-	"bufio"
 	"fmt"
 	"github.com/seata/seata-ctl/action"
+	"github.com/seata/seata-ctl/action/common"
 	"github.com/seata/seata-ctl/seata"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"os"
-	"strings"
 )
 
 var (
@@ -65,35 +64,18 @@ func Execute() {
 
 	for {
 		printPrompt(address)
-		if !getArgs() {
+		err = common.ReadArgs(os.Stdin)
+		if err != nil {
+			fmt.Println(err)
 			continue
 		}
-		if err := action.Execute(); err != nil {
-			fmt.Fprintln(os.Stderr, err)
+		if err = action.Execute(); err != nil {
+			fmt.Println(err)
+			os.Args = []string{}
 		}
 	}
 }
 
 func printPrompt(address string) {
 	fmt.Printf("%s > ", address)
-}
-
-func getArgs() bool {
-	inputReader := bufio.NewReader(os.Stdin)
-	input, err := inputReader.ReadString('\n')
-	if err != nil {
-		fmt.Println(err)
-		return false
-	}
-	input = strings.Replace(input, "\n", "", -1)
-	input = strings.Replace(input, "\r", "", -1)
-	args := strings.Split(input, " ")
-
-	os.Args = []string{""}
-	for _, arg := range args {
-		if arg != "" {
-			os.Args = append(os.Args, arg)
-		}
-	}
-	return true
 }

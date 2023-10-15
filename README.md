@@ -44,10 +44,12 @@ Available Commands:
   quit        Quit the session
   reload      Reload the configuration
   set         Set the resource
-  try         Try if this node is ready
+  try         Try example transactions
 ```
 
 ## Get
+
+### Usage
 
 ```shell
 127.0.0.1:7091 > get -h    
@@ -59,8 +61,6 @@ Usage:
 
 Available Commands:
   config        Get the configuration
-  config-center Get the config-center configuration
-  registry      Get the registry configuration
   status        Get the status
 
 Flags:
@@ -69,7 +69,9 @@ Flags:
 Use "get [command] --help" for more information about a command.
 ```
 
-e.g. Get the status of the Seata server cluster:
+### Example
+
+1. Get the status of the Seata server cluster:
 
 ```shell
 127.0.0.1:7091 > get status
@@ -82,10 +84,10 @@ e.g. Get the status of the Seata server cluster:
 +-------+--------------------+--------+
 ```
 
-e.g. Get the configuration `server.servicePort`:
+2. Get the configuration `server.servicePort`:
 
 ```shell
-127.0.0.1:7091 > get config --key server.servicePort   
+127.0.0.1:7091 > get config --key '["server.servicePort"]'
 +--------------------+-------+
 | KEY                | VALUE |
 +--------------------+-------+
@@ -94,6 +96,8 @@ e.g. Get the configuration `server.servicePort`:
 ```
 
 ## Set
+
+### Usage
 
 ```shell
 127.0.0.1:7091 > set -h                    
@@ -105,8 +109,6 @@ Usage:
 
 Available Commands:
   config        Set the configuration
-  config-center Set the config-center configuration
-  registry      Set the registry configuration
 
 Flags:
   -h, --help   help for set
@@ -114,55 +116,126 @@ Flags:
 Use "set [command] --help" for more information about a command.
 ```
 
-e.g. Set the registry type to `eureka`:
+```shell
+127.0.0.1:7091 > set config -h
+Set the configuration
+
+Usage:
+   set config [flags]
+
+Flags:
+      --config-center   If set configuration center conf
+      --data string     Configuration map (default "{}")
+  -h, --help            help for config
+      --registry        If set registry conf
+```
+
+### Example
+
+1. Set the registry type to `eureka`:
 
 ```shell
-127.0.0.1:7091 > set registry --key registry.type --value eureka
-+---------------+--------+
-| KEY           | VALUE  |
-+---------------+--------+
-| registry.type | eureka |
-+---------------+--------+
+127.0.0.1:7091 > set config --registry --data '{"registry.type": "eureka"}'
++---------------+------+--------+
+| KEY           | FROM | TO     |
++---------------+------+--------+
+| registry.type | file | eureka |
++---------------+------+--------+
 ```
 
 You can found that the Seata server is registered at `eureka` registry.
 
-e.g. Set the configuration center to `nacos`
+2. Set the configuration center to `nacos`
 
 ```shell
-127.0.0.1:7091 > set config-center --key config.type --value nacos 
-+-------------+-------+
-| KEY         | VALUE |
-+-------------+-------+
-| config.type | nacos |
-+-------------+-------+
+127.0.0.1:7091 > set config --config-center --data '{"config.type": "nacos"}'
++-------------+------+-------+
+| KEY         | FROM | TO    |
++-------------+------+-------+
+| config.type | file | nacos |
++-------------+------+-------+
 ```
 
 You can found that the configuration in `nacos` is loaded.
 
-e.g. Set a configuration item which can be dynamically configured (such as `server.undo.logSaveDays`):
+3. Set a configuration item which can be dynamically configured (such as `server.undo.logSaveDays`):
 
 ```shell
-set config --key server.undo.logSaveDays --value 5
-+-------------------------+-------+
-| KEY                     | VALUE |
-+-------------------------+-------+
-| server.undo.logSaveDays | 5     |
-+-------------------------+-------+
+127.0.0.1:7091 > set config --data '{"server.undo.logSaveDays": "5"}'
++-------------------------+------+----+
+| KEY                     | FROM | TO |
++-------------------------+------+----+
+| server.undo.logSaveDays | 6    | 5  |
++-------------------------+------+----+
 ```
 
 ## Try
 
-Try to submit an example transaction to check if the server is ok:
+### Usage
 
 ```shell
-127.0.0.1:7091 > try
-Try an example txn successfully, xid=192.168.163.1:8091:522856277732237313
+127.0.0.1:7091 > try -h
+Try if this node is ready
+
+Usage:
+   try [flags]
+   try [command]
+
+Available Commands:
+  begin       begin a txn
+  commit      commit a txn
+  rollback    rollback a txn
+
+Flags:
+  -h, --help   help for try
+
+Use "try [command] --help" for more information about a command.
+```
+
+### Example
+
+1. Try to begin an example transaction:
+
+```shell
+127.0.0.1:7091 > try begin --timeout 300000
+Try an example txn successfully, xid=192.168.163.1:8091:8755443813836259333
+```
+
+2. Commit a transaction by xid:
+
+```shell
+127.0.0.1:7091 > try commit --xid 192.168.163.1:8091:8755443813836259333
+Commit txn successfully, xid=192.168.163.1:8091:8755443813836259333
+```
+
+3. Rollback a transaction by xid:
+
+```shell
+127.0.0.1:7091 > try rollback --xid 192.168.163.1:8091:8755443813836259333
+Rollback txn successfully, xid=192.168.163.1:8091:8755443813836259333
 ```
 
 ## Reload
 
-TBD
+### Usage
+
+```shell
+reload -h
+Reload the configuration
+
+Usage:
+   reload [flags]
+
+Flags:
+  -h, --help   help for reload
+```
+
+### Example
+
+```shell
+127.0.0.1:7091 > reload
+Reload Successful!
+```
 
 ## Quit
 

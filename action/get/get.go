@@ -7,8 +7,6 @@ import (
 
 func init() {
 	GetCmd.AddCommand(StatusCmd)
-	GetCmd.AddCommand(RegistryCmd)
-	GetCmd.AddCommand(ConfigCenterCmd)
 	GetCmd.AddCommand(ConfigCmd)
 
 	GetCmd.SetUsageTemplate(common.GetUsageTmpl("get"))

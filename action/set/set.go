@@ -6,8 +6,6 @@ import (
 )
 
 func init() {
-	SetCmd.AddCommand(ConfigCenterCmd)
-	SetCmd.AddCommand(RegistryCmd)
 	SetCmd.AddCommand(ConfigCmd)
 	SetCmd.SetUsageTemplate(common.GetUsageTmpl("set"))
 	SetCmd.SetHelpTemplate(common.GetHelpTmpl())

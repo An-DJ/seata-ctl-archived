@@ -27,9 +27,9 @@ type Response struct {
 	Success bool
 }
 
-func (auth *Auth) GetToken() (string, error){
+func (auth *Auth) GetToken() (string, error) {
 	if auth.token == "" {
-		return auth.token, errors.New("Login failed")
+		return auth.token, errors.New("login failed")
 	}
 	return auth.token, nil
 }
@@ -37,7 +37,6 @@ func (auth *Auth) GetToken() (string, error){
 func (auth *Auth) GetAddress() string {
 	return auth.ServerIp + ":" + strconv.Itoa(auth.ServerPort)
 }
-
 
 func GetAuth() *Auth {
 	return &auth
